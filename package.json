@@ -2,6 +2,7 @@
   "name": "luckydraw",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",
     "serve": "vue-cli-service serve",

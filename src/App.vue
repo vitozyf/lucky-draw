@@ -34,6 +34,10 @@
     <LotteryConfig :visible.sync="showConfig" @resetconfig="reloadTagCanvas" />
     <Tool @toggle="toggle" :running="running" />
     <Result :visible.sync="showResult"></Result>
+
+    <span class="copy-right">
+      Copyright©zhangyongfeng5350@gmail.com
+    </span>
   </div>
 </template>
 <script>
@@ -235,6 +239,13 @@ export default {
         right: 100px;
       }
     }
+  }
+  .copy-right {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: #ccc;
+    font-size: 12px;
   }
 }
 #main {
