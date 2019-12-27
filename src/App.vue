@@ -19,18 +19,20 @@
         </li>
       </ul>
     </div>
-    <div id="resbox" v-show="showRes">
-      <p @click="showRes = false">{{ categoryName }}抽奖结果：</p>
-      <span
-        v-for="item in resArr"
-        :key="item"
-        class="itemres"
-        :style="resCardStyle"
-        @click="showRes = false"
-      >
-        {{ item }}
-      </span>
-    </div>
+    <transition name="bounce">
+      <div id="resbox" v-show="showRes">
+        <p @click="showRes = false">{{ categoryName }}抽奖结果：</p>
+        <span
+          v-for="item in resArr"
+          :key="item"
+          class="itemres"
+          :style="resCardStyle"
+          @click="showRes = false"
+        >
+          {{ item }}
+        </span>
+      </div>
+    </transition>
 
     <LotteryConfig :visible.sync="showConfig" @resetconfig="reloadTagCanvas" />
     <Tool @toggle="toggle" @resetConfig="reloadTagCanvas" :running="running" />
@@ -61,7 +63,7 @@ export default {
 
   computed: {
     resCardStyle() {
-      const style = {};
+      const style = { fontSize: '30px' };
       const { number } = this.config;
       if (number < 100) {
         style.fontSize = '100px';
@@ -182,9 +184,7 @@ export default {
       if (this.running) {
         window.TagCanvas.SetSpeed('rootcanvas', speed());
         this.reloadTagCanvas();
-        setTimeout(() => {
-          this.showRes = true;
-        }, 300);
+        this.showRes = true;
       } else {
         this.showRes = false;
         const { number } = config;
@@ -257,6 +257,12 @@ export default {
     color: #ccc;
     font-size: 12px;
   }
+  .bounce-enter-active {
+    animation: bounce-in 1.5s;
+  }
+  .bounce-leave-active {
+    animation: bounce-in 0.2s reverse;
+  }
 }
 #main {
   height: 100%;
@@ -282,7 +288,6 @@ export default {
     border-radius: 4px;
     border: 1px solid #ccc;
     line-height: 160px;
-    font-size: 80px;
     font-weight: bold;
     margin-right: 20px;
     margin-top: 20px;
