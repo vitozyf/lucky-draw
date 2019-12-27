@@ -25,6 +25,7 @@
         v-for="item in resArr"
         :key="item"
         class="itemres"
+        :style="resCardStyle"
         @click="showRes = false"
       >
         {{ item }}
@@ -32,7 +33,7 @@
     </div>
 
     <LotteryConfig :visible.sync="showConfig" @resetconfig="reloadTagCanvas" />
-    <Tool @toggle="toggle" :running="running" />
+    <Tool @toggle="toggle" @resetConfig="reloadTagCanvas" :running="running" />
     <Result :visible.sync="showResult"></Result>
 
     <span class="copy-right">
@@ -59,6 +60,18 @@ export default {
   components: { LotteryConfig, Publicity, Tool, Result },
 
   computed: {
+    resCardStyle() {
+      const style = {};
+      const { number } = this.config;
+      if (number < 100) {
+        style.fontSize = '100px';
+      } else if (number < 1000) {
+        style.fontSize = '80px';
+      } else if (number < 10000) {
+        style.fontSize = '60px';
+      }
+      return style;
+    },
     config: {
       get() {
         return this.$store.state.config;
@@ -192,16 +205,13 @@ export default {
         this.resArr = resArr;
 
         this.category = category;
-
-        if (this.result[category]) {
+        if (!this.result[category]) {
           this.$set(this.result, category, []);
         }
-
         const oldRes = this.result[category] || [];
         const data = Object.assign({}, this.result, {
           [category]: oldRes.concat(resArr)
         });
-
         this.result = data;
         window.TagCanvas.SetSpeed('rootcanvas', [5, 1]);
       }
@@ -272,7 +282,7 @@ export default {
     border-radius: 4px;
     border: 1px solid #ccc;
     line-height: 160px;
-    font-size: 100px;
+    font-size: 80px;
     font-weight: bold;
     margin-right: 20px;
     margin-top: 20px;

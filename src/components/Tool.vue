@@ -136,6 +136,7 @@ export default {
         .then(() => {
           clearData();
           this.$store.commit('setClearStore');
+          this.$emit('resetConfig');
           this.$message({
             type: 'success',
             message: '重置成功!'
