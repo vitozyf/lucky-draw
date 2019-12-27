@@ -1,0 +1,42 @@
+body,
+html {
+  height: 100%;
+  font-size: 14px;
+  font-family: 'PingFang SC', Microsoft YaHei, '微软雅黑', Tahoma, Arial, HeiTi,
+    '黑体', sans-serif;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: #333;
+}
+i {
+  font-style: normal;
+}
+p,
+body,
+ul,
+figure {
+  padding: 0px;
+  margin: 0px;
+}
+input {
+  outline: none;
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background-color: transparent;
+}
+body {
+  overflow: hidden;
+}
+.el-form-item {
+  margin-bottom: 5px !important;
+}
+.el-dialog__body {
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+}
