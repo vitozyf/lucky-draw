@@ -39,22 +39,24 @@
             <span
               class="key"
               :style="{
-                fontSize: list[item] && list[item].name ? '36px' : null,
-                lineHeight: list[item] && list[item].name ? '80px' : null
+                fontSize: list[item - 1] && list[item - 1].name ? '36px' : null,
+                lineHeight:
+                  list[item - 1] && list[item - 1].name ? '80px' : null
               }"
-              v-if="list[item] && list[item].name"
+              v-if="list[item - 1] && list[item - 1].name"
             >
               {{ item }}
             </span>
             <span
               class="cont"
               :style="{
-                fontSize: list[item] && list[item].name ? '36px' : null,
-                lineHeight: list[item] && list[item].name ? '80px' : null
+                fontSize: list[item - 1] && list[item - 1].name ? '36px' : null,
+                lineHeight:
+                  list[item - 1] && list[item - 1].name ? '80px' : null
               }"
             >
-              <span v-if="list[item] && list[item].name">
-                {{ list[item].name }}
+              <span v-if="list[item - 1] && list[item - 1].name">
+                {{ list[item - 1].name }}
               </span>
               <span v-else>
                 {{ item }}
@@ -66,7 +68,12 @@
     </transition>
 
     <LotteryConfig :visible.sync="showConfig" @resetconfig="reloadTagCanvas" />
-    <Tool @toggle="toggle" @resetConfig="reloadTagCanvas" :running="running" />
+    <Tool
+      @toggle="toggle"
+      @resetConfig="reloadTagCanvas"
+      :running="running"
+      :closeRes="closeRes"
+    />
     <Result :visible.sync="showResult"></Result>
 
     <span class="copy-right">
@@ -134,10 +141,10 @@ export default {
     },
     datas() {
       const datas = [];
-      for (let index = 0; index < this.config.number; index++) {
+      for (let index = 1; index <= this.config.number; index++) {
         const listData = this.list.find(d => d.key === index);
         datas.push({
-          key: index + 1,
+          key: index,
           name: listData ? listData.name : ''
         });
       }
@@ -214,16 +221,23 @@ export default {
     reloadTagCanvas() {
       window.TagCanvas.Reload('rootcanvas');
     },
+    closeRes() {
+      this.showRes = false;
+    },
     toggle(form) {
       const { speed, config } = this;
       if (this.running) {
         window.TagCanvas.SetSpeed('rootcanvas', speed());
         this.showRes = true;
+        this.running = !this.running;
         this.$nextTick(() => {
           this.reloadTagCanvas();
         });
       } else {
         this.showRes = false;
+        if (!form) {
+          return;
+        }
         const { number } = config;
         const { category, mode, qty, remain, allin } = form;
         let num = 1;
@@ -251,8 +265,8 @@ export default {
         });
         this.result = data;
         window.TagCanvas.SetSpeed('rootcanvas', [5, 1]);
+        this.running = !this.running;
       }
-      this.running = !this.running;
     }
   }
 };
@@ -298,7 +312,7 @@ export default {
     animation: bounce-in 1.5s;
   }
   .bounce-leave-active {
-    animation: bounce-in 0.2s reverse;
+    animation: bounce-in 0s reverse;
   }
 }
 #main {

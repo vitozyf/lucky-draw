@@ -105,7 +105,8 @@ import { clearData, conversionCategoryName } from '@/helper/index';
 
 export default {
   props: {
-    running: Boolean
+    running: Boolean,
+    closeRes: Function
   },
   computed: {
     config: {
@@ -165,7 +166,7 @@ export default {
         .then(() => {
           clearData();
           this.$store.commit('setClearStore');
-
+          this.closeRes && this.closeRes();
           this.$message({
             type: 'success',
             message: '重置成功!'
@@ -209,9 +210,8 @@ export default {
       );
     },
     startHandler() {
-      if (this.running) {
-        this.$emit('toggle');
-      } else {
+      this.$emit('toggle');
+      if (!this.running) {
         this.showSetwat = true;
       }
     },
@@ -224,7 +224,7 @@ export default {
       const rows = listStr.split('\n');
       if (rows && rows.length > 0) {
         rows.forEach(item => {
-          const rowList = item.split('\t');
+          const rowList = item.split(/\t|\s/);
           if (rowList.length >= 2) {
             const key = Number(rowList[0].trim());
             const name = rowList[1].trim();

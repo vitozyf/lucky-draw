@@ -73,9 +73,9 @@ export default new Vuex.Store({
     setList(state, list) {
       const arr = state.list;
       list.forEach(item => {
-        const arrItem = arr.find(data => data.key === item.key);
-        if (arrItem) {
-          arrItem.name === item.name;
+        const arrIndex = arr.findIndex(data => data.key === item.key);
+        if (arrIndex > -1) {
+          arr[arrIndex].name = item.name;
         } else {
           arr.push(item);
         }
