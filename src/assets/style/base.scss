@@ -32,6 +32,7 @@ input {
 }
 body {
   overflow: hidden;
+  padding: 0 !important;
 }
 .el-form-item {
   margin-bottom: 5px !important;
@@ -45,4 +46,9 @@ body {
   top: 50%;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background-color: #ccc;
 }

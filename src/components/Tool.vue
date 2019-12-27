@@ -26,12 +26,14 @@
 
         <el-form-item label=" " v-if="form.category">
           <span>
-            共<span class="colorred">{{ config[form.category] }}</span
-            >名
+            共&nbsp;
+            <span class="colorred">{{ config[form.category] }}</span>
+            &nbsp;名
           </span>
           <span :style="{ marginLeft: '20px' }">
-            剩余<span class="colorred">{{ remain }}</span
-            >名
+            剩余&nbsp;
+            <span class="colorred">{{ remain }}</span>
+            &nbsp;名
           </span>
         </el-form-item>
 
@@ -133,13 +135,11 @@ export default {
       })
         .then(() => {
           clearData();
+          this.$store.commit('setClearStore');
           this.$message({
             type: 'success',
             message: '重置成功!'
           });
-          setTimeout(() => {
-            window.location.reload();
-          }, 3000);
         })
         .catch(() => {
           this.$message({

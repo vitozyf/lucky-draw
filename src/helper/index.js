@@ -58,21 +58,6 @@ export function conversionCategoryName(key) {
     case 'fifthPrize':
       name = '五等奖';
       break;
-    case 'additionalPrize1':
-      name = '追加奖(1)';
-      break;
-    case 'additionalPrize2':
-      name = '追加奖(2)';
-      break;
-    case 'additionalPrize3':
-      name = '追加奖(3)';
-      break;
-    case 'additionalPrize4':
-      name = '追加奖(4)';
-      break;
-    case 'additionalPrize5':
-      name = '追加奖(5)';
-      break;
 
     default:
       break;

@@ -3,7 +3,6 @@
     :visible="visible"
     :append-to-body="true"
     width="400px"
-    :lock-scroll="true"
     @close="$emit('update:visible', false)"
     class="c-LotteryConfig"
   >
@@ -19,48 +18,87 @@
         >取消</el-button
       >
     </div>
-    <el-form ref="form" :model="form" label-width="100px" size="mini">
-      <el-form-item label="抽奖标题">
-        <el-input v-model="form.name"></el-input>
-      </el-form-item>
-      <el-form-item label="抽奖总人数">
-        <el-input type="number" v-model="form.number"></el-input>
-      </el-form-item>
-      <el-form-item label="特等奖人数">
-        <el-input type="number" v-model="form.specialAward"></el-input>
-      </el-form-item>
-      <el-form-item label="一等奖人数">
-        <el-input type="number" v-model="form.firstPrize"></el-input>
-      </el-form-item>
-      <el-form-item label="二等奖人数">
-        <el-input type="number" v-model="form.secondPrize"></el-input>
-      </el-form-item>
-      <el-form-item label="三等奖人数">
-        <el-input type="number" v-model="form.thirdPrize"></el-input>
-      </el-form-item>
-      <el-form-item label="四等奖人数">
-        <el-input type="number" v-model="form.fourthPrize"></el-input>
-      </el-form-item>
-      <el-form-item label="五等奖人数">
-        <el-input type="number" v-model="form.fifthPrize"></el-input>
-      </el-form-item>
+    <div class="container">
+      <el-form ref="form" :model="form" label-width="90px" size="mini">
+        <el-form-item label="抽奖标题">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="抽奖总人数">
+          <el-input
+            type="number"
+            v-model="form.number"
+            :min="1"
+            :step="1"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="特等奖">
+          <el-input
+            type="number"
+            v-model="form.specialAward"
+            :min="0"
+            :step="1"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="一等奖">
+          <el-input
+            type="number"
+            v-model="form.firstPrize"
+            :min="0"
+            :step="1"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="二等奖">
+          <el-input
+            type="number"
+            v-model="form.secondPrize"
+            :min="0"
+            :step="1"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="三等奖">
+          <el-input
+            type="number"
+            v-model="form.thirdPrize"
+            :min="0"
+            :step="1"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="四等奖">
+          <el-input
+            type="number"
+            v-model="form.fourthPrize"
+            :min="0"
+            :step="1"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="五等奖">
+          <el-input
+            type="number"
+            v-model="form.fifthPrize"
+            :min="0"
+            :step="1"
+          ></el-input>
+        </el-form-item>
 
-      <el-form-item
-        :label="newitem.name"
-        v-for="newitem in storeNewLottery"
-        :key="newitem.key"
-      >
-        <el-input
-          type="number"
-          v-model="form[newitem.key]"
-          @change="
-            val => {
-              form[newitem.key] = Number(val);
-            }
-          "
-        ></el-input>
-      </el-form-item>
-    </el-form>
+        <el-form-item
+          :label="newitem.name"
+          v-for="newitem in storeNewLottery"
+          :key="newitem.key"
+        >
+          <el-input
+            type="number"
+            :min="0"
+            :step="1"
+            v-model="form[newitem.key]"
+            @change="
+              val => {
+                form[newitem.key] = Number(val);
+              }
+            "
+          ></el-input>
+        </el-form-item>
+      </el-form>
+    </div>
 
     <el-dialog
       :visible.sync="showAddLottery"
@@ -146,7 +184,11 @@ export default {
 .c-LotteryConfig {
   .el-dialog__body {
     height: 340px;
-    overflow-y: auto;
+    .container {
+      height: 100%;
+      overflow-y: auto;
+      padding: 0 10px;
+    }
   }
 }
 .dialog-showAddLottery {
