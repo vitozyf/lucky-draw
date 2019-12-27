@@ -44,6 +44,7 @@ import {
   getData,
   configField,
   resultField,
+  newLotteryField,
   conversionCategoryName
 } from '@/helper/index';
 import { luckydrawHandler } from '@/helper/algorithm';
@@ -99,6 +100,18 @@ export default {
     if (result) {
       this.$store.commit('setResult', result);
     }
+
+    const newLottery = getData(newLotteryField);
+    if (newLottery) {
+      const config = this.config;
+      newLottery.forEach(item => {
+        this.$store.commit('setNewLottery', item);
+        if (!config[item.key]) {
+          this.$set(config, item.key, 0);
+        }
+      });
+      this.$store.commit('setConfig', config);
+    }
   },
 
   data() {
@@ -115,11 +128,11 @@ export default {
     this.startTagCanvas();
   },
   methods: {
-    style(item) {
+    style() {
       const style = { color: '#fff' };
-      if (this.allresult.includes(item.key)) {
-        style.color = 'yellow';
-      }
+      // if (!this.running && this.allresult.includes(item.key)) {
+      //   style.color = 'yellow';
+      // }
       return style;
     },
     speed() {
@@ -173,11 +186,19 @@ export default {
           num
         );
         this.resArr = resArr;
+
         this.category = category;
+
+        if (this.result[category]) {
+          this.$set(this.result, category, []);
+        }
+
         const oldRes = this.result[category] || [];
-        this.result = {
+        const data = Object.assign({}, this.result, {
           [category]: oldRes.concat(resArr)
-        };
+        });
+
+        this.result = data;
         window.TagCanvas.SetSpeed('rootcanvas', [5, 1]);
       }
       this.running = !this.running;
@@ -206,6 +227,7 @@ export default {
       position: absolute;
       top: 17px;
       padding: 0;
+      z-index: 9999;
       &.con {
         right: 20px;
       }

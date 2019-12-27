@@ -40,3 +40,9 @@ body {
   padding-top: 20px !important;
   padding-bottom: 20px !important;
 }
+.el-dialog {
+  margin-top: 0 !important;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}

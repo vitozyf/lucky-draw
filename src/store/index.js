@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { setData, resultField } from '@/helper/index';
+import { setData, resultField, newLotteryField } from '@/helper/index';
 
 Vue.use(Vuex);
 
@@ -14,12 +14,7 @@ export default new Vuex.Store({
       secondPrize: 5,
       thirdPrize: 8,
       fourthPrize: 10,
-      fifthPrize: 20,
-      additionalPrize1: 0,
-      additionalPrize2: 0,
-      additionalPrize3: 0,
-      additionalPrize4: 0,
-      additionalPrize5: 0
+      fifthPrize: 20
     },
     result: {
       specialAward: [],
@@ -27,22 +22,25 @@ export default new Vuex.Store({
       secondPrize: [],
       thirdPrize: [],
       fourthPrize: [],
-      fifthPrize: [],
-      additionalPrize1: [],
-      additionalPrize2: [],
-      additionalPrize3: [],
-      additionalPrize4: [],
-      additionalPrize5: []
-    }
+      fifthPrize: []
+    },
+    newLottery: []
   },
   mutations: {
     setConfig(state, config) {
       state.config = config;
     },
     setResult(state, result = {}) {
-      Object.assign(state.result, result);
+      state.result = result;
 
       setData(resultField, state.result);
+    },
+    setNewLottery(state, newLottery) {
+      if (state.newLottery.find(item => item.name === newLottery.name)) {
+        return;
+      }
+      state.newLottery.push(newLottery);
+      setData(newLotteryField, state.newLottery);
     }
   },
   actions: {},

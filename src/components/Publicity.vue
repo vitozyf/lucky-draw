@@ -1,11 +1,21 @@
 <template>
   <div class="c-Publicity">
-    <div class="message">
-      <span class="title">
-        {{ config.name }}
-      </span>
-      <span v-html="message"> </span>
-    </div>
+    <el-carousel
+      height="50px"
+      :autoplay="true"
+      indicator-position="none"
+      arrow="never"
+      :interval="3000"
+    >
+      <el-carousel-item v-for="item in message" :key="item.key">
+        <div class="item" :class="{ actiname: item.key === 0 }">
+          <span v-if="item.title" class="title"> {{ item.title }}</span>
+          <span v-if="item.value" class="value">
+            {{ item.value }}
+          </span>
+        </div>
+      </el-carousel-item>
+    </el-carousel>
   </div>
 </template>
 <script>
@@ -21,39 +31,21 @@ export default {
       return this.$store.state.result;
     },
     message() {
-      const {
-        specialAward,
-        additionalPrize1,
-        additionalPrize2,
-        additionalPrize3
-      } = this.config;
-      const fields = [
-        'firstPrize',
-        'secondPrize',
-        'thirdPrize',
-        'fourthPrize',
-        'fifthPrize'
-      ];
-      if (specialAward > 0) {
-        fields.unshift('specialAward');
-      }
-      if (additionalPrize1 > 0) {
-        fields.push('additionalPrize1');
-      }
-      if (additionalPrize2 > 0) {
-        fields.push('additionalPrize2');
-      }
-      if (additionalPrize3 > 0) {
-        fields.push('additionalPrize3');
-      }
-      const { result } = this;
+      const { result, config } = this;
+      const fields = Object.keys(config);
 
-      let message = '';
-      fields.forEach(item => {
+      let message = [{ key: 0, title: config.name }];
+      fields.forEach((item, index) => {
         let label = conversionCategoryName(item);
-        message += `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${label}抽奖结果: ${
-          result[item].length > 0 ? result[item].join('、') : '暂未抽取'
-        }`;
+        if (result[item] && config[item] > 0) {
+          message.push({
+            key: index + 1,
+            title: `${label}抽奖结果:`,
+            value: `${
+              result[item].length > 0 ? result[item].join('、') : '暂未抽取'
+            }`
+          });
+        }
       });
 
       return message;
@@ -64,23 +56,26 @@ export default {
 <style lang="scss">
 .c-Publicity {
   height: 100%;
-  width: 1000px;
+  // width: 1000px;
   background-color: rgba(0, 0, 0, 0.2);
   margin: 0 auto;
   position: relative;
   overflow: hidden;
-  .message {
-    font-size: 16px;
+  .item {
+    text-align: center;
     color: #fff;
-    position: absolute;
-    left: 500px;
-    animation-name: slowMovingToLeft;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    animation-direction: normal;
-    animation-duration: 40s;
+    font-size: 16px;
     .title {
-      color: #ff2200;
+      color: #ccc;
+    }
+    .value {
+      margin-left: 10px;
+    }
+    &.actiname {
+      .title {
+        color: red;
+        font-size: 20px;
+      }
     }
   }
 }

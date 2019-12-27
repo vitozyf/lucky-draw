@@ -35,6 +35,7 @@ export function getDomData(element, dataName) {
 
 export const configField = 'config'; // 配置数据
 export const resultField = 'result'; // 抽奖结果
+export const newLotteryField = 'newLottery'; // 新增奖项
 
 export function conversionCategoryName(key) {
   let name = '';
@@ -75,6 +76,11 @@ export function conversionCategoryName(key) {
 
     default:
       break;
+  }
+  const newLottery = getData(newLotteryField) || [];
+  const findres = newLottery.find(item => item.key === key);
+  if (findres) {
+    name = findres.name;
   }
   return name;
 }

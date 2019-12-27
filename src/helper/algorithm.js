@@ -3,7 +3,7 @@
  * @param {number} minNum
  * @param {number} maxNum
  */
-function randomNum(minNum = 1, maxNum) {
+export function randomNum(minNum = 1, maxNum) {
   return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
 }
 /**

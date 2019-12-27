@@ -2,10 +2,17 @@
   <el-dialog
     :visible="visible"
     @close="$emit('update:visible', false)"
-    title="抽奖结果"
     width="600px"
     class="c-Result"
   >
+    <div class="dialog-title" slot="title">
+      <span :style="{ fontSize: '18px' }">
+        抽奖结果
+      </span>
+      <span :style="{ fontSize: '14px', color: '#999', marginLeft: '10px' }">
+        (点击号码可以删除)
+      </span>
+    </div>
     <div
       v-for="(item, index) in resultList"
       :key="index"
@@ -69,13 +76,16 @@ export default {
   },
   methods: {
     deleteRes(event, row) {
+      const Index = getDomData(event.target, 'res');
+      if (!Index) {
+        return;
+      }
       this.$confirm('此操作将移除该中奖号码，确认删除?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(() => {
-          const Index = getDomData(event.target, 'res');
           if (Index) {
             const result = this.result;
             result[row.label] = this.result[row.label].filter(
