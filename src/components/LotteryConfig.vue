@@ -150,10 +150,14 @@ export default {
     onSubmit() {
       setData(configField, this.form);
       this.$emit('update:visible', false);
-      this.$emit('resetconfig');
+
       this.$message({
         message: '保存成功',
         type: 'success'
+      });
+
+      this.$nextTick(() => {
+        this.$emit('resetconfig');
       });
     },
     addLottery() {

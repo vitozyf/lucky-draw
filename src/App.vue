@@ -13,8 +13,14 @@
     <div id="tags">
       <ul v-for="item in datas" :key="item.key">
         <li>
-          <a href="javascript:void(0);" :style="style(item)">
-            {{ item.key }}
+          <a
+            href="javascript:void(0);"
+            :style="{
+              color:
+                !running && allresult.includes(item.key) ? '#ff2200' : '#fff'
+            }"
+          >
+            {{ item.name ? item.name : item.key }}
           </a>
         </li>
       </ul>
@@ -22,15 +28,40 @@
     <transition name="bounce">
       <div id="resbox" v-show="showRes">
         <p @click="showRes = false">{{ categoryName }}抽奖结果：</p>
-        <span
-          v-for="item in resArr"
-          :key="item"
-          class="itemres"
-          :style="resCardStyle"
-          @click="showRes = false"
-        >
-          {{ item }}
-        </span>
+        <div class="container">
+          <span
+            v-for="item in resArr"
+            :key="item"
+            class="itemres"
+            :style="resCardStyle"
+            @click="showRes = false"
+          >
+            <span
+              class="key"
+              :style="{
+                fontSize: list[item] && list[item].name ? '36px' : null,
+                lineHeight: list[item] && list[item].name ? '80px' : null
+              }"
+              v-if="list[item] && list[item].name"
+            >
+              {{ item }}
+            </span>
+            <span
+              class="cont"
+              :style="{
+                fontSize: list[item] && list[item].name ? '36px' : null,
+                lineHeight: list[item] && list[item].name ? '80px' : null
+              }"
+            >
+              <span v-if="list[item] && list[item].name">
+                {{ list[item].name }}
+              </span>
+              <span v-else>
+                {{ item }}
+              </span>
+            </span>
+          </span>
+        </div>
       </div>
     </transition>
 
@@ -52,7 +83,8 @@ import {
   configField,
   resultField,
   newLotteryField,
-  conversionCategoryName
+  conversionCategoryName,
+  listField
 } from '@/helper/index';
 import { luckydrawHandler } from '@/helper/algorithm';
 import Result from '@/components/Result';
@@ -87,6 +119,9 @@ export default {
         this.$store.commit('setResult', val);
       }
     },
+    list() {
+      return this.$store.state.list;
+    },
     allresult() {
       let allresult = [];
       for (const key in this.result) {
@@ -100,8 +135,10 @@ export default {
     datas() {
       const datas = [];
       for (let index = 0; index < this.config.number; index++) {
+        const listData = this.list.find(d => d.key === index);
         datas.push({
-          key: index + 1
+          key: index + 1,
+          name: listData ? listData.name : ''
         });
       }
       return datas;
@@ -131,6 +168,11 @@ export default {
       });
       this.$store.commit('setConfig', config);
     }
+
+    const list = getData(listField);
+    if (list) {
+      this.$store.commit('setList', list);
+    }
   },
 
   data() {
@@ -147,13 +189,6 @@ export default {
     this.startTagCanvas();
   },
   methods: {
-    style() {
-      const style = { color: '#fff' };
-      // if (!this.running && this.allresult.includes(item.key)) {
-      //   style.color = 'yellow';
-      // }
-      return style;
-    },
     speed() {
       return [0.1 * Math.random() + 0.01, -(0.1 * Math.random() + 0.01)];
     },
@@ -183,8 +218,10 @@ export default {
       const { speed, config } = this;
       if (this.running) {
         window.TagCanvas.SetSpeed('rootcanvas', speed());
-        this.reloadTagCanvas();
         this.showRes = true;
+        this.$nextTick(() => {
+          this.reloadTagCanvas();
+        });
       } else {
         this.showRes = false;
         const { number } = config;
@@ -270,7 +307,7 @@ export default {
 
 #resbox {
   position: absolute;
-  top: 45%;
+  top: 50%;
   left: 50%;
   width: 1000px;
   transform: translateX(-50%) translateY(-50%);
@@ -280,9 +317,13 @@ export default {
     font-size: 50px;
     line-height: 120px;
   }
+  .container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
   .itemres {
     background: #fff;
-    display: inline-block;
     width: 160px;
     height: 160px;
     border-radius: 4px;
@@ -292,6 +333,13 @@ export default {
     margin-right: 20px;
     margin-top: 20px;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .key {
+      color: red;
+    }
   }
 }
 </style>

@@ -1,10 +1,13 @@
 <template>
   <div id="tool">
-    <el-button @click="startHandler" size="mini">{{
+    <el-button @click="startHandler" type="primary" size="mini">{{
       running ? '停止' : '开始'
     }}</el-button>
     <el-button size="mini" @click="resetConfig">
       重置
+    </el-button>
+    <el-button size="mini" @click="showImport = true">
+      导入名单
     </el-button>
     <el-dialog
       :append-to-body="true"
@@ -70,6 +73,30 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+
+    <el-dialog
+      :append-to-body="true"
+      :visible.sync="showImport"
+      class="import-dialog"
+      width="400px"
+    >
+      <el-input
+        type="textarea"
+        :rows="10"
+        placeholder="请输入对应的号码和名单(可直接从excel复制)，格式(号码 名字)，导入的名单将代替号码显示在抽奖中。如：
+1 张三
+2 李四
+3 王五
+				"
+        v-model="listStr"
+      ></el-input>
+      <div class="footer">
+        <el-button size="mini" type="primary" @click="transformList"
+          >确定</el-button
+        >
+        <el-button size="mini" @click="showImport = false">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -118,12 +145,14 @@ export default {
   data() {
     return {
       showSetwat: false,
+      showImport: false,
       form: {
         category: '',
         mode: 1,
         qty: 1,
         allin: false
-      }
+      },
+      listStr: ''
     };
   },
   methods: {
@@ -136,10 +165,14 @@ export default {
         .then(() => {
           clearData();
           this.$store.commit('setClearStore');
-          this.$emit('resetConfig');
+
           this.$message({
             type: 'success',
             message: '重置成功!'
+          });
+
+          this.$nextTick(() => {
+            this.$emit('resetConfig');
           });
         })
         .catch(() => {
@@ -181,6 +214,38 @@ export default {
       } else {
         this.showSetwat = true;
       }
+    },
+    transformList() {
+      const { listStr } = this;
+      if (!listStr) {
+        this.$message.error('没有数据');
+      }
+      const list = [];
+      const rows = listStr.split('\n');
+      if (rows && rows.length > 0) {
+        rows.forEach(item => {
+          const rowList = item.split('\t');
+          if (rowList.length >= 2) {
+            const key = Number(rowList[0].trim());
+            const name = rowList[1].trim();
+            key &&
+              list.push({
+                key,
+                name
+              });
+          }
+        });
+      }
+      this.$store.commit('setList', list);
+
+      this.$message({
+        message: '保存成功',
+        type: 'success'
+      });
+      this.showImport = false;
+      this.$nextTick(() => {
+        this.$emit('resetConfig');
+      });
     }
   }
 };
@@ -207,6 +272,13 @@ export default {
   .colorred {
     color: red;
     font-weight: bold;
+  }
+}
+.import-dialog {
+  .footer {
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
   }
 }
 </style>
