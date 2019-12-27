@@ -13,7 +13,7 @@
     <div id="tags">
       <ul v-for="item in datas" :key="item.key">
         <li>
-          <a href="javascript:void(0);" :style="{ color: '#fff' }">
+          <a href="javascript:void(0);" :style="style(item)">
             {{ item.key }}
           </a>
         </li>
@@ -115,6 +115,13 @@ export default {
     this.startTagCanvas();
   },
   methods: {
+    style(item) {
+      const style = { color: '#fff' };
+      if (this.allresult.includes(item.key)) {
+        style.color = 'yellow';
+      }
+      return style;
+    },
     speed() {
       return [0.1 * Math.random() + 0.01, -(0.1 * Math.random() + 0.01)];
     },

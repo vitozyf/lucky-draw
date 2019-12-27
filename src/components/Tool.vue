@@ -198,7 +198,7 @@ export default {
   align-items: center;
   justify-content: center;
   .el-button + .el-button {
-    margin-top: 10px;
+    margin-top: 20px;
     margin-left: 0px;
   }
 }
