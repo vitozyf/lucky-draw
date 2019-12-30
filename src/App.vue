@@ -21,6 +21,7 @@
             }"
           >
             {{ item.name ? item.name : item.key }}
+            <img v-if="item.photo" :src="item.photo" :width="50" :height="50" />
           </a>
         </li>
       </ul>
@@ -34,19 +35,9 @@
             :key="item"
             class="itemres"
             :style="resCardStyle"
+            :data-id="item"
             @click="showRes = false"
           >
-            <span
-              class="key"
-              :style="{
-                fontSize: list[item - 1] && list[item - 1].name ? '36px' : null,
-                lineHeight:
-                  list[item - 1] && list[item - 1].name ? '80px' : null
-              }"
-              v-if="list[item - 1] && list[item - 1].name"
-            >
-              {{ item }}
-            </span>
             <span
               class="cont"
               :style="{
@@ -54,6 +45,7 @@
                 lineHeight:
                   list[item - 1] && list[item - 1].name ? '80px' : null
               }"
+              v-if="!photos.find(d => d.id === item)"
             >
               <span v-if="list[item - 1] && list[item - 1].name">
                 {{ list[item - 1].name }}
@@ -62,6 +54,13 @@
                 {{ item }}
               </span>
             </span>
+            <img
+              v-if="photos.find(d => d.id === item)"
+              :src="photos.find(d => d.id === item).value"
+              alt="photo"
+              :width="160"
+              :height="160"
+            />
           </span>
         </div>
       </div>
@@ -71,6 +70,7 @@
     <Tool
       @toggle="toggle"
       @resetConfig="reloadTagCanvas"
+      @getPhoto="getPhoto"
       :running="running"
       :closeRes="closeRes"
     />
@@ -95,6 +95,7 @@ import {
 } from '@/helper/index';
 import { luckydrawHandler } from '@/helper/algorithm';
 import Result from '@/components/Result';
+import { database, DB_STORE_NAME } from '@/helper/db';
 export default {
   name: 'App',
 
@@ -143,15 +144,20 @@ export default {
       const datas = [];
       for (let index = 1; index <= this.config.number; index++) {
         const listData = this.list.find(d => d.key === index);
+        const photo = this.photos.find(d => d.id === index);
         datas.push({
           key: index,
-          name: listData ? listData.name : ''
+          name: listData ? listData.name : '',
+          photo: photo ? photo.value : ''
         });
       }
       return datas;
     },
     categoryName() {
       return conversionCategoryName(this.category);
+    },
+    photos() {
+      return this.$store.state.photos;
     }
   },
   created() {
@@ -192,10 +198,30 @@ export default {
       category: ''
     };
   },
+  watch: {
+    photos: {
+      deep: true,
+      handler() {
+        this.$nextTick(() => {
+          this.reloadTagCanvas();
+        });
+      }
+    }
+  },
   mounted() {
     this.startTagCanvas();
+    setTimeout(() => {
+      this.getPhoto();
+    }, 1000);
   },
   methods: {
+    getPhoto() {
+      database.getAll(DB_STORE_NAME).then(res => {
+        if (res && res.length > 0) {
+          this.$store.commit('setPhotos', res);
+        }
+      });
+    },
     speed() {
       return [0.1 * Math.random() + 0.01, -(0.1 * Math.random() + 0.01)];
     },
@@ -323,7 +349,7 @@ export default {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 1000px;
+  width: 1280px;
   transform: translateX(-50%) translateY(-50%);
   text-align: center;
   p {
@@ -345,14 +371,28 @@ export default {
     line-height: 160px;
     font-weight: bold;
     margin-right: 20px;
-    margin-top: 20px;
+    margin-top: 70px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
     .key {
       color: red;
+    }
+    &::before {
+      content: attr(data-id);
+      width: 70px;
+      height: 50px;
+      background-color: #fff;
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 30px;
+      line-height: 50px;
+      border-radius: 50%;
     }
   }
 }

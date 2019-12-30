@@ -30,7 +30,8 @@ export default new Vuex.Store({
       fifthPrize: []
     },
     newLottery: [],
-    list: []
+    list: [],
+    photos: []
   },
   mutations: {
     setClearStore(state) {
@@ -54,6 +55,7 @@ export default new Vuex.Store({
       };
       state.newLottery = [];
       state.list = [];
+      state.photos = [];
     },
     setConfig(state, config) {
       state.config = config;
@@ -83,6 +85,9 @@ export default new Vuex.Store({
       state.list = arr;
 
       setData(listField, arr);
+    },
+    setPhotos(state, photos) {
+      state.photos = photos;
     }
   },
   actions: {},

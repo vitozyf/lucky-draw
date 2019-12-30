@@ -9,6 +9,9 @@
     <el-button size="mini" @click="showImport = true">
       导入名单
     </el-button>
+    <el-button size="mini" @click="showImportphoto = true">
+      导入照片
+    </el-button>
     <el-dialog
       :append-to-body="true"
       :visible.sync="showSetwat"
@@ -97,11 +100,17 @@
         <el-button size="mini" @click="showImport = false">取消</el-button>
       </div>
     </el-dialog>
+    <Importphoto
+      :visible.sync="showImportphoto"
+      @getPhoto="$emit('getPhoto')"
+    ></Importphoto>
   </div>
 </template>
 
 <script>
 import { clearData, conversionCategoryName } from '@/helper/index';
+import Importphoto from './Importphoto';
+import { database, DB_STORE_NAME } from '@/helper/db';
 
 export default {
   props: {
@@ -143,10 +152,12 @@ export default {
       return options;
     }
   },
+  components: { Importphoto },
   data() {
     return {
       showSetwat: false,
       showImport: false,
+      showImportphoto: false,
       form: {
         category: '',
         mode: 1,
@@ -166,6 +177,7 @@ export default {
         .then(() => {
           clearData();
           this.$store.commit('setClearStore');
+          database.clear(DB_STORE_NAME);
           this.closeRes && this.closeRes();
           this.$message({
             type: 'success',
