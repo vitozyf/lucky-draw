@@ -34,6 +34,9 @@
       <img v-if="value" :src="value" alt="img" :width="140" :height="140" />
       <span v-else>暂未选择</span>
     </el-row>
+    <el-row>
+      支持jpg和png，照片大小不能超过150kb,建议20-50kb，建议尺寸为160*160px
+    </el-row>
     <el-row class="center">
       <el-button size="mini" type="primary" @click="saveHandler"
         >保存</el-button
@@ -133,7 +136,7 @@ export default {
 <style lang="scss">
 .c-Importphoto {
   .el-dialog {
-    height: 330px;
+    height: 380px;
   }
   label {
     margin-right: 20px;
