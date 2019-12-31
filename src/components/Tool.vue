@@ -3,7 +3,7 @@
     <el-button @click="startHandler" type="primary" size="mini">{{
       running ? '停止' : '开始'
     }}</el-button>
-    <el-button size="mini" @click="resetConfig">
+    <el-button size="mini" @click="showRemoveoptions = true">
       重置
     </el-button>
     <el-button size="mini" @click="showImport = true">
@@ -104,11 +104,41 @@
       :visible.sync="showImportphoto"
       @getPhoto="$emit('getPhoto')"
     ></Importphoto>
+
+    <el-dialog
+      :visible.sync="showRemoveoptions"
+      width="300px"
+      class="c-removeoptions"
+      :append-to-body="true"
+    >
+      <el-form ref="form" :model="removeInfo" label-width="80px" size="mini">
+        <el-form-item label="重置选项">
+          <el-radio-group v-model="removeInfo.type">
+            <el-radio border :label="0">重置全部数据</el-radio>
+            <el-radio border :label="1">重置抽奖配置</el-radio>
+            <el-radio border :label="2">重置名单</el-radio>
+            <el-radio border :label="3">重置照片</el-radio>
+            <el-radio border :label="4">重置抽奖结果</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="resetConfig">确定重置</el-button>
+          <el-button @click="showRemoveoptions = false">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { clearData, conversionCategoryName } from '@/helper/index';
+import {
+  clearData,
+  removeData,
+  configField,
+  listField,
+  resultField,
+  conversionCategoryName
+} from '@/helper/index';
 import Importphoto from './Importphoto';
 import { database, DB_STORE_NAME } from '@/helper/db';
 
@@ -158,6 +188,8 @@ export default {
       showSetwat: false,
       showImport: false,
       showImportphoto: false,
+      showRemoveoptions: false,
+      removeInfo: { type: 0 },
       form: {
         category: '',
         mode: 1,
@@ -167,18 +199,51 @@ export default {
       listStr: ''
     };
   },
+  watch: {
+    showRemoveoptions(v) {
+      if (!v) {
+        this.removeInfo.type = 0;
+      }
+    }
+  },
   methods: {
     resetConfig() {
-      this.$confirm('此操作将重置所有数据，是否继续?', '提示', {
+      const type = this.removeInfo.type;
+      this.$confirm('此操作将重置所选数据，是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(() => {
-          clearData();
-          this.$store.commit('setClearStore');
-          database.clear(DB_STORE_NAME);
+          switch (type) {
+            case 0:
+              clearData();
+              this.$store.commit('setClearStore');
+              database.clear(DB_STORE_NAME);
+              break;
+            case 1:
+              removeData(configField);
+              this.$store.commit('setClearConfig');
+              break;
+            case 2:
+              removeData(listField);
+              this.$store.commit('setClearList');
+              break;
+            case 3:
+              database.clear(DB_STORE_NAME);
+              this.$store.commit('setClearPhotos');
+              break;
+            case 4:
+              removeData(resultField);
+              this.$store.commit('setClearResult');
+              break;
+            default:
+              break;
+          }
+
           this.closeRes && this.closeRes();
+
+          this.showRemoveoptions = false;
           this.$message({
             type: 'success',
             message: '重置成功!'
@@ -291,6 +356,17 @@ export default {
     height: 50px;
     line-height: 50px;
     text-align: center;
+  }
+}
+.c-removeoptions {
+  .el-dialog {
+    height: 290px;
+  }
+  .el-radio.is-bordered + .el-radio.is-bordered {
+    margin-left: 0px;
+  }
+  .el-radio.is-bordered {
+    margin-bottom: 10px;
   }
 }
 </style>

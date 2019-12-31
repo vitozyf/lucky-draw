@@ -4,6 +4,7 @@
     @close="$emit('update:visible', false)"
     width="600px"
     class="c-Result"
+    :append-to-body="true"
   >
     <div class="dialog-title" slot="title">
       <span :style="{ fontSize: '18px' }">
@@ -132,7 +133,7 @@ export default {
       border: 1px solid #ccc;
       background-color: #f2f2f2;
       margin-left: 5px;
-      margin-top: 5px;
+      margin-bottom: 5px;
       position: relative;
       cursor: pointer;
       &:hover {

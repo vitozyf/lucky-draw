@@ -34,6 +34,35 @@ export default new Vuex.Store({
     photos: []
   },
   mutations: {
+    setClearConfig(state) {
+      state.config = {
+        name: '年会抽奖',
+        number: 70,
+        specialAward: 0,
+        firstPrize: 1,
+        secondPrize: 5,
+        thirdPrize: 8,
+        fourthPrize: 10,
+        fifthPrize: 20
+      };
+      state.newLottery = [];
+    },
+    setClearList(state) {
+      state.list = [];
+    },
+    setClearPhotos(state) {
+      state.photos = [];
+    },
+    setClearResult(state) {
+      state.result = {
+        specialAward: [],
+        firstPrize: [],
+        secondPrize: [],
+        thirdPrize: [],
+        fourthPrize: [],
+        fifthPrize: []
+      };
+    },
     setClearStore(state) {
       state.config = {
         name: '年会抽奖',
