@@ -37,18 +37,20 @@
             :style="resCardStyle"
             :data-id="item"
             @click="showRes = false"
+            :class="{
+              numberOver:
+                !!photos.find(d => d.id === item) ||
+                !!list.find(d => d.key === item)
+            }"
           >
-            <span
-              class="cont"
-              :style="{
-                fontSize: list[item - 1] && list[item - 1].name ? '36px' : null,
-                lineHeight:
-                  list[item - 1] && list[item - 1].name ? '80px' : null
-              }"
-              v-if="!photos.find(d => d.id === item)"
-            >
-              <span v-if="list[item - 1] && list[item - 1].name">
-                {{ list[item - 1].name }}
+            <span class="cont" v-if="!photos.find(d => d.id === item)">
+              <span
+                v-if="!!list.find(d => d.key === item)"
+                :style="{
+                  fontSize: '40px'
+                }"
+              >
+                {{ list.find(d => d.key === item).name }}
               </span>
               <span v-else>
                 {{ item }}
@@ -374,25 +376,26 @@ export default {
     margin-top: 70px;
     cursor: pointer;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
-    .key {
-      color: red;
+    .cont {
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-    &::before {
+    &.numberOver::before {
       content: attr(data-id);
-      width: 70px;
-      height: 50px;
+      width: 30px;
+      height: 22px;
+      line-height: 22px;
       background-color: #fff;
       position: absolute;
-      top: -50px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 30px;
-      line-height: 50px;
-      border-radius: 50%;
+      bottom: 0;
+      left: 0;
+      font-size: 14px;
+      // border-radius: 50%;
+      z-index: 1;
     }
   }
 }
