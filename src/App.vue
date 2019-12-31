@@ -373,7 +373,7 @@ export default {
     line-height: 160px;
     font-weight: bold;
     margin-right: 20px;
-    margin-top: 70px;
+    margin-bottom: 20px;
     cursor: pointer;
     display: flex;
     align-items: center;
