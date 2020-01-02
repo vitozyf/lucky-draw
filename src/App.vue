@@ -68,7 +68,15 @@
       </div>
     </transition>
 
-    <el-button class="audio" type="text" @click="audioPlaying = !audioPlaying">
+    <el-button
+      class="audio"
+      type="text"
+      @click="
+        () => {
+          playAudio(!audioPlaying);
+        }
+      "
+    >
       <i
         class="iconfont"
         :class="[audioPlaying ? 'iconstop' : 'iconplay1']"
@@ -96,6 +104,7 @@
       autoplay
       loop
       @play="playHandler"
+      @pause="pauseHandler"
     >
       <source :src="audioSrc" />
       你的浏览器不支持audio标签
@@ -231,9 +240,6 @@ export default {
           this.reloadTagCanvas();
         });
       }
-    },
-    audioPlaying(v) {
-      this.playAudio(v);
     }
   },
   mounted() {
@@ -245,6 +251,9 @@ export default {
   methods: {
     playHandler() {
       this.audioPlaying = true;
+    },
+    pauseHandler() {
+      this.audioPlaying = false;
     },
     playAudio(type) {
       if (type) {
