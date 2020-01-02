@@ -68,6 +68,13 @@
       </div>
     </transition>
 
+    <el-button class="audio" type="text" @click="audioPlaying = !audioPlaying">
+      <i
+        class="iconfont"
+        :class="[audioPlaying ? 'iconstop' : 'iconplay1']"
+      ></i>
+    </el-button>
+
     <LotteryConfig :visible.sync="showConfig" @resetconfig="reloadTagCanvas" />
     <Tool
       @toggle="toggle"
@@ -81,12 +88,18 @@
     <span class="copy-right">
       Copyright©zhangyongfeng5350@gmail.com
     </span>
+
+    <audio id="audiobg" :src="audioSrc" preload="auto" controls autoplay loop>
+      你的浏览器不支持audio标签
+    </audio>
   </div>
 </template>
 <script>
 import LotteryConfig from '@/components/LotteryConfig';
 import Publicity from '@/components/Publicity';
 import Tool from '@/components/Tool';
+import bgaudio from '@/assets/bg.mp3';
+import beginaudio from '@/assets/begin.mp3';
 import {
   getData,
   configField,
@@ -197,7 +210,9 @@ export default {
       showConfig: false,
       showResult: false,
       resArr: [],
-      category: ''
+      category: '',
+      audioPlaying: false,
+      audioSrc: bgaudio
     };
   },
   watch: {
@@ -208,6 +223,9 @@ export default {
           this.reloadTagCanvas();
         });
       }
+    },
+    audioPlaying(v) {
+      this.playAudio(v);
     }
   },
   mounted() {
@@ -217,6 +235,19 @@ export default {
     }, 1000);
   },
   methods: {
+    playAudio(type) {
+      if (type) {
+        this.$el.querySelector('#audiobg').play();
+      } else {
+        this.$el.querySelector('#audiobg').pause();
+      }
+    },
+    loadAudio() {
+      this.$el.querySelector('#audiobg').load();
+      this.$nextTick(() => {
+        this.$el.querySelector('#audiobg').play();
+      });
+    },
     getPhoto() {
       database.getAll(DB_STORE_NAME).then(res => {
         if (res && res.length > 0) {
@@ -255,6 +286,9 @@ export default {
     toggle(form) {
       const { speed, config } = this;
       if (this.running) {
+        this.audioSrc = bgaudio;
+        this.loadAudio();
+
         window.TagCanvas.SetSpeed('rootcanvas', speed());
         this.showRes = true;
         this.running = !this.running;
@@ -266,6 +300,10 @@ export default {
         if (!form) {
           return;
         }
+
+        this.audioSrc = beginaudio;
+        this.loadAudio();
+
         const { number } = config;
         const { category, mode, qty, remain, allin } = form;
         let num = 1;
@@ -327,6 +365,22 @@ export default {
       &.res {
         right: 100px;
       }
+    }
+  }
+  .audio {
+    position: absolute;
+    top: 100px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    padding: 0;
+    text-align: center;
+    .iconfont {
+      position: relative;
+      left: 1px;
     }
   }
   .copy-right {
