@@ -89,7 +89,15 @@
       Copyright©zhangyongfeng5350@gmail.com
     </span>
 
-    <audio id="audiobg" :src="audioSrc" preload="auto" controls autoplay loop>
+    <audio
+      id="audiobg"
+      preload="auto"
+      controls
+      autoplay
+      loop
+      @play="playHandler"
+    >
+      <source :src="audioSrc" />
       你的浏览器不支持audio标签
     </audio>
   </div>
@@ -235,6 +243,9 @@ export default {
     }, 1000);
   },
   methods: {
+    playHandler() {
+      this.audioPlaying = true;
+    },
     playAudio(type) {
       if (type) {
         this.$el.querySelector('#audiobg').play();
