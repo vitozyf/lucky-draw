@@ -14,20 +14,10 @@ export default new Vuex.Store({
     config: {
       name: '年会抽奖',
       number: 70,
-      specialAward: 0,
-      firstPrize: 1,
-      secondPrize: 5,
-      thirdPrize: 8,
-      fourthPrize: 10,
-      fifthPrize: 20
+      firstPrize: 1
     },
     result: {
-      specialAward: [],
-      firstPrize: [],
-      secondPrize: [],
-      thirdPrize: [],
-      fourthPrize: [],
-      fifthPrize: []
+      firstPrize: []
     },
     newLottery: [],
     list: [],
@@ -38,12 +28,7 @@ export default new Vuex.Store({
       state.config = {
         name: '年会抽奖',
         number: 70,
-        specialAward: 0,
-        firstPrize: 1,
-        secondPrize: 5,
-        thirdPrize: 8,
-        fourthPrize: 10,
-        fifthPrize: 20
+        firstPrize: 1
       };
       state.newLottery = [];
     },
@@ -55,32 +40,17 @@ export default new Vuex.Store({
     },
     setClearResult(state) {
       state.result = {
-        specialAward: [],
-        firstPrize: [],
-        secondPrize: [],
-        thirdPrize: [],
-        fourthPrize: [],
-        fifthPrize: []
+        firstPrize: []
       };
     },
     setClearStore(state) {
       state.config = {
         name: '年会抽奖',
         number: 70,
-        specialAward: 0,
-        firstPrize: 1,
-        secondPrize: 5,
-        thirdPrize: 8,
-        fourthPrize: 10,
-        fifthPrize: 20
+        firstPrize: 1
       };
       state.result = {
-        specialAward: [],
-        firstPrize: [],
-        secondPrize: [],
-        thirdPrize: [],
-        fourthPrize: [],
-        fifthPrize: []
+        firstPrize: []
       };
       state.newLottery = [];
       state.list = [];

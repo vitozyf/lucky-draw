@@ -15,6 +15,10 @@
 	} 
 */
 
+export function generateArray(start, end) {
+  return Array.from(new Array(end + 1).keys()).slice(start);
+}
+
 /**
  * 取范围内随机整数
  * @param {number} minNum
@@ -30,13 +34,8 @@ export function randomNum(minNum = 1, maxNum) {
  * @param {number} num 本次抽取人数
  */
 export function luckydrawHandler(total, won = [], num) {
-  const peolist = [];
-  for (let i = 1; i <= total; i++) {
-    peolist.push(i);
-  }
-
+  const peolist = generateArray(1, Number(total));
   const wons = won;
-
   const res = [];
   for (let j = 0; j < num; j++) {
     const nodraws = peolist.filter(item => !wons.includes(item));

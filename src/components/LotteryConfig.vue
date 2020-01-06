@@ -2,7 +2,7 @@
   <el-dialog
     :visible="visible"
     :append-to-body="true"
-    width="400px"
+    width="390px"
     @close="$emit('update:visible', false)"
     class="c-LotteryConfig"
   >
@@ -19,7 +19,7 @@
       >
     </div>
     <div class="container">
-      <el-form ref="form" :model="form" label-width="90px" size="mini">
+      <el-form ref="form" :model="form" size="mini">
         <el-form-item label="抽奖标题">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
@@ -31,14 +31,6 @@
             :step="1"
           ></el-input>
         </el-form-item>
-        <el-form-item label="特等奖">
-          <el-input
-            type="number"
-            v-model="form.specialAward"
-            :min="0"
-            :step="1"
-          ></el-input>
-        </el-form-item>
         <el-form-item label="一等奖">
           <el-input
             type="number"
@@ -47,39 +39,6 @@
             :step="1"
           ></el-input>
         </el-form-item>
-        <el-form-item label="二等奖">
-          <el-input
-            type="number"
-            v-model="form.secondPrize"
-            :min="0"
-            :step="1"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="三等奖">
-          <el-input
-            type="number"
-            v-model="form.thirdPrize"
-            :min="0"
-            :step="1"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="四等奖">
-          <el-input
-            type="number"
-            v-model="form.fourthPrize"
-            :min="0"
-            :step="1"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="五等奖">
-          <el-input
-            type="number"
-            v-model="form.fifthPrize"
-            :min="0"
-            :step="1"
-          ></el-input>
-        </el-form-item>
-
         <el-form-item
           :label="newitem.name"
           v-for="newitem in storeNewLottery"
