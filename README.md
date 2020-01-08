@@ -43,7 +43,7 @@
 
 ## windows 软件版本
 
-- 本抽奖程序的 winsdows 软件版本安装包在`installationpackage`目录下,可自行下载安装。使用无需联网。
+- 本抽奖程序的 windows 软件版本下载[安装包](https://github.com/vitozyf/lucky-draw/releases/tag/0.0.1)
 
 ## License
 
