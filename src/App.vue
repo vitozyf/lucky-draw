@@ -247,8 +247,19 @@ export default {
     setTimeout(() => {
       this.getPhoto();
     }, 1000);
+    window.addEventListener('resize', this.reportWindowSize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.reportWindowSize);
   },
   methods: {
+    reportWindowSize() {
+      const AppCanvas = this.$el.querySelector('#rootcanvas');
+      if (AppCanvas.parentElement) {
+        AppCanvas.parentElement.removeChild(AppCanvas);
+      }
+      this.startTagCanvas();
+    },
     playHandler() {
       this.audioPlaying = true;
     },

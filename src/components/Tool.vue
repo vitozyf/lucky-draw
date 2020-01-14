@@ -331,7 +331,6 @@ export default {
 #tool {
   position: fixed;
   width: 60px;
-  height: 500px;
   top: 50%;
   right: 20px;
   transform: translateY(-50%);
