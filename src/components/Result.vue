@@ -111,6 +111,10 @@ export default {
 </script>
 <style lang="scss">
 .c-Result {
+	.el-dialog__body{
+		max-height: 500px;
+		overflow-y: auto;
+	}
   .listrow {
     display: flex;
     line-height: 30px;
