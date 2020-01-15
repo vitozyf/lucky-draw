@@ -43,7 +43,7 @@
 
 ## windows 软件版本
 
-- 本抽奖程序的 windows 软件版本下载[安装包](https://github.com/vitozyf/lucky-draw/releases/tag/0.0.1)
+- 本抽奖程序的 windows 软件版本下载[安装包](https://github.com/vitozyf/lucky-draw/releases)
 
 ## License
 
