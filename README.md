@@ -45,6 +45,12 @@
 
 - 本抽奖程序的 windows 软件版本下载[安装包](https://github.com/vitozyf/lucky-draw/releases)
 
+## Donation
+
+如果这个开源项目对您有帮助，请作者喝杯咖啡吧。
+
+![payimg](./public/pay.png)
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
