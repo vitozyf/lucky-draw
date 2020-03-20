@@ -16,8 +16,7 @@
           <a
             href="javascript:void(0);"
             :style="{
-              color:
-                !running && allresult.includes(item.key) ? '#ff2200' : '#fff'
+              color: '#fff'
             }"
           >
             {{ item.name ? item.name : item.key }}
@@ -173,17 +172,20 @@ export default {
       return allresult;
     },
     datas() {
-      const datas = [];
-      for (let index = 1; index <= this.config.number; index++) {
-        const listData = this.list.find(d => d.key === index);
-        const photo = this.photos.find(d => d.id === index);
-        datas.push({
-          key: index,
+      const { number } = this.config;
+      const nums = number >= 1500 ? 500 : this.config.number;
+      const configNum = number > 1500 ? Math.floor(number / 3) : number;
+      const randomShowNums = luckydrawHandler(configNum, [], nums);
+      const randomShowDatas = randomShowNums.map(item => {
+        const listData = this.list.find(d => d.key === item);
+        const photo = this.photos.find(d => d.id === item);
+        return {
+          key: item * (number > 1500 ? 3 : 1),
           name: listData ? listData.name : '',
           photo: photo ? photo.value : ''
-        });
-      }
-      return datas;
+        };
+      });
+      return randomShowDatas;
     },
     categoryName() {
       return conversionCategoryName(this.category);

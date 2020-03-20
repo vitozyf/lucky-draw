@@ -92,7 +92,8 @@ export default {
         return this.$store.state.config;
       },
       set(val) {
-        this.$store.commit('setConfig', val);
+        // this.$store.commit('setConfig', val);
+        return val;
       }
     },
     storeNewLottery() {
@@ -108,6 +109,7 @@ export default {
   methods: {
     onSubmit() {
       setData(configField, this.form);
+      this.$store.commit('setConfig', this.form);
       this.$emit('update:visible', false);
 
       this.$message({

@@ -61,6 +61,10 @@ export default {
   margin: 0 auto;
   position: relative;
   overflow: hidden;
+  .el-carousel {
+    width: 80vw;
+    margin: 0 auto;
+  }
   .item {
     text-align: center;
     color: #fff;

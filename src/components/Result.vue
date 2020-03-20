@@ -111,10 +111,10 @@ export default {
 </script>
 <style lang="scss">
 .c-Result {
-	.el-dialog__body{
-		max-height: 500px;
-		overflow-y: auto;
-	}
+  .el-dialog__body {
+    max-height: 500px;
+    overflow-y: auto;
+  }
   .listrow {
     display: flex;
     line-height: 30px;
@@ -127,9 +127,9 @@ export default {
     }
     .card {
       display: inline-block;
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
+      // width: 40px;
+      padding: 0 5px;
+      line-height: 30px;
       text-align: center;
       font-size: 18px;
       font-weight: bold;
