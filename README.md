@@ -1,5 +1,3 @@
-## 定制化开发请联系 vito.z@qq.com
-
 ## 年会抽奖
 
 [演示地址](https://vitozyf.github.io/lucky-draw/index.html#/?tdsourcetag=s_pctim_aiomsg)
@@ -54,7 +52,9 @@
 
 ## Donation
 
-如果这个开源项目对您有帮助，请作者喝杯咖啡吧。
+如果这个开源项目对您有帮助，请作者喝杯咖啡吧
+
+Email: vito.z@qq.com
 
 ![payimg](./public/pay.png)
 
