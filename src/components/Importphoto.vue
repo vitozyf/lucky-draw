@@ -7,7 +7,7 @@
     class="c-Importphoto"
   >
     <el-row>
-      <label for="idinput">抽奖号码</label>
+      <label for="idinput">抽獎號碼</label>
       <el-input
         id="idinput"
         size="mini"
@@ -18,7 +18,7 @@
       ></el-input>
     </el-row>
     <el-row>
-      <label for="idinput">照片选择</label>
+      <label for="idinput">照片選擇</label>
       <span class="selectbg" :data-tip="filename">
         <input
           ref="uploadinput"
@@ -30,12 +30,12 @@
       </span>
     </el-row>
     <el-row class="photo">
-      <label>已选照片</label>
+      <label>已選照片</label>
       <img v-if="value" :src="value" alt="img" :width="140" :height="140" />
-      <span v-else>暂未选择</span>
+      <span v-else>暂未選擇</span>
     </el-row>
     <el-row>
-      支持jpg和png，照片大小不能超过150kb,建议20-50kb，建议尺寸为160*160px
+      支持jpg和png，照片大小不能超過150kb,建議20-50kb，建議尺寸為160*160px
     </el-row>
     <el-row class="center">
       <el-button size="mini" type="primary" @click="saveHandler"
@@ -66,7 +66,7 @@ export default {
     return {
       id: 0,
       value: '',
-      filename: '点击选择照片'
+      filename: '點擊選擇照片'
     };
   },
   methods: {
@@ -85,7 +85,7 @@ export default {
             AllowImgFileSize != 0 &&
             AllowImgFileSize < reader.result.length
           ) {
-            return this.$message.error('不允许上传大于150KB的图片');
+            return this.$message.error('不允許上傳大於150KB的圖片');
           } else {
             this.value = reader.result;
           }
@@ -96,10 +96,10 @@ export default {
       const { id, value } = this;
       const ID = Number(id);
       if (!ID || ID <= 0) {
-        return this.$message.error('号码必须大于0的整数');
+        return this.$message.error('號碼必須為大於0的整數');
       }
       if (!value) {
-        return this.$message.error('请选择照片');
+        return this.$message.error('請選擇照片');
       }
       const Data = await database.get(DB_STORE_NAME, ID);
       const param = {
@@ -115,7 +115,7 @@ export default {
           if (res) {
             this.$refs.uploadinput.value = '';
             this.value = '';
-            this.filename = '点击选择照片';
+            this.filename = '點擊選擇照片';
             this.$emit('update:visible', false);
             this.$emit('getPhoto');
             this.$message({
@@ -123,7 +123,7 @@ export default {
               type: 'success'
             });
           } else {
-            this.$message.error('保存失败');
+            this.$message.error('保存失敗');
           }
         })
         .catch(err => {

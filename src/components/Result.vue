@@ -8,10 +8,10 @@
   >
     <div class="dialog-title" slot="title">
       <span :style="{ fontSize: '18px' }">
-        抽奖结果
+        抽獎結果
       </span>
       <span :style="{ fontSize: '14px', color: '#999', marginLeft: '10px' }">
-        (点击号码可以删除)
+        (點擊號碼可以刪除)
       </span>
     </div>
     <div
@@ -29,7 +29,7 @@
       </span>
       <span class="value">
         <span v-if="item.value && item.value.length === 0">
-          暂未抽奖
+          暫未抽獎
         </span>
         <span
           class="card"
@@ -81,8 +81,8 @@ export default {
       if (!Index) {
         return;
       }
-      this.$confirm('此操作将移除该中奖号码，确认删除?', '警告', {
-        confirmButtonText: '确定',
+      this.$confirm('此操作將移除該中獎號碼，確認删除?', '警告', {
+        confirmButtonText: '確定',
         cancelButtonText: '取消',
         type: 'warning'
       })
