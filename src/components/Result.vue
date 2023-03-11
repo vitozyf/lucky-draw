@@ -142,7 +142,7 @@ export default {
       cursor: pointer;
       &:hover {
         &::before {
-          content: '删除';
+          content: 'Delete';
           width: 100%;
           height: 100%;
           background-color: #ccc;
