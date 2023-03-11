@@ -112,7 +112,7 @@
       :append-to-body="true"
     >
       <el-form ref="form" :model="removeInfo" label-width="80px" size="mini">
-        <el-form-item label="重置选项">
+        <el-form-item label="Selections">
           <el-radio-group v-model="removeInfo.type">
             <el-radio border :label="0">Reset all data</el-radio>
             <el-radio border :label="1">Reset draw setting</el-radio>
