@@ -3,10 +3,10 @@
     <header>
       <Publicity v-show="!running" />
       <el-button class="res" type="text" @click="showResult = true">
-        抽奖结果
+        Draw result
       </el-button>
       <el-button class="con" type="text" @click="showConfig = true">
-        抽奖配置
+        Setting
       </el-button>
     </header>
     <div id="main" :class="{ mask: showRes }"></div>
@@ -27,7 +27,7 @@
     </div>
     <transition name="bounce">
       <div id="resbox" v-show="showRes">
-        <p @click="showRes = false">{{ categoryName }}抽奖结果：</p>
+        <p @click="showRes = false">{{ categoryName }}Result：</p>
         <div class="container">
           <span
             v-for="item in resArr"
@@ -92,10 +92,6 @@
     />
     <Result :visible.sync="showResult"></Result>
 
-    <span class="copy-right">
-      Copyright©zhangyongfeng5350@gmail.com
-    </span>
-
     <audio
       id="audiobg"
       preload="auto"
@@ -106,7 +102,7 @@
       @pause="pauseHandler"
     >
       <source :src="audioSrc" />
-      你的浏览器不支持audio标签
+      Your browser does not support the audio tag
     </audio>
   </div>
 </template>

@@ -7,7 +7,7 @@
     class="c-Importphoto"
   >
     <el-row>
-      <label for="idinput">抽奖号码</label>
+      <label for="idinput">Draw number</label>
       <el-input
         id="idinput"
         size="mini"
@@ -18,7 +18,7 @@
       ></el-input>
     </el-row>
     <el-row>
-      <label for="idinput">照片选择</label>
+      <label for="idinput">Photo selection</label>
       <span class="selectbg" :data-tip="filename">
         <input
           ref="uploadinput"
@@ -30,19 +30,19 @@
       </span>
     </el-row>
     <el-row class="photo">
-      <label>已选照片</label>
+      <label>Selected photos</label>
       <img v-if="value" :src="value" alt="img" :width="140" :height="140" />
-      <span v-else>暂未选择</span>
+      <span v-else>Not selected</span>
     </el-row>
     <el-row>
-      支持jpg和png，照片大小不能超过150kb,建议20-50kb，建议尺寸为160*160px
+      Supports jpg and png no larger than 150kb, 20-50kb recommanded，160*160px is the recommanded dimensions
     </el-row>
     <el-row class="center">
       <el-button size="mini" type="primary" @click="saveHandler"
-        >保存</el-button
+        >Save</el-button
       >
       <el-button size="mini" @click="$emit('update:visible', false)"
-        >取消</el-button
+        >Cancel</el-button
       >
     </el-row>
   </el-dialog>
@@ -66,7 +66,7 @@ export default {
     return {
       id: 0,
       value: '',
-      filename: '点击选择照片'
+      filename: 'Click to select photo'
     };
   },
   methods: {
@@ -85,7 +85,7 @@ export default {
             AllowImgFileSize != 0 &&
             AllowImgFileSize < reader.result.length
           ) {
-            return this.$message.error('不允许上传大于150KB的图片');
+            return this.$message.error('Error: Photo larger than 150KB');
           } else {
             this.value = reader.result;
           }
@@ -96,10 +96,10 @@ export default {
       const { id, value } = this;
       const ID = Number(id);
       if (!ID || ID <= 0) {
-        return this.$message.error('号码必须大于0的整数');
+        return this.$message.error('Number must be a natural number larger than 0');
       }
       if (!value) {
-        return this.$message.error('请选择照片');
+        return this.$message.error('Please select the photo');
       }
       const Data = await database.get(DB_STORE_NAME, ID);
       const param = {
@@ -115,15 +115,15 @@ export default {
           if (res) {
             this.$refs.uploadinput.value = '';
             this.value = '';
-            this.filename = '点击选择照片';
+            this.filename = 'Click to select photo';
             this.$emit('update:visible', false);
             this.$emit('getPhoto');
             this.$message({
-              message: '保存成功',
+              message: 'Save success!',
               type: 'success'
             });
           } else {
-            this.$message.error('保存失败');
+            this.$message.error('Save failed!');
           }
         })
         .catch(err => {

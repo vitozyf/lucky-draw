@@ -8,10 +8,10 @@
   >
     <div class="dialog-title" slot="title">
       <span :style="{ fontSize: '18px' }">
-        抽奖结果
+        Result
       </span>
       <span :style="{ fontSize: '14px', color: '#999', marginLeft: '10px' }">
-        (点击号码可以删除)
+        (Click on the number to delete)
       </span>
     </div>
     <div
@@ -29,7 +29,7 @@
       </span>
       <span class="value">
         <span v-if="item.value && item.value.length === 0">
-          暂未抽奖
+          Not drawn
         </span>
         <span
           class="card"
@@ -81,9 +81,9 @@ export default {
       if (!Index) {
         return;
       }
-      this.$confirm('此操作将移除该中奖号码，确认删除?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm('This will delete the winner, are you sure?', 'Warning', {
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'Cancel',
         type: 'warning'
       })
         .then(() => {
@@ -95,14 +95,14 @@ export default {
             this.result = result;
             this.$message({
               type: 'success',
-              message: '删除成功!'
+              message: 'Successfully deleted!'
             });
           }
         })
         .catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消'
+            message: 'Canceled'
           });
         });
     }

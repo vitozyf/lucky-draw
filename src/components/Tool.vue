@@ -1,16 +1,16 @@
 <template>
   <div id="tool">
     <el-button @click="startHandler" type="primary" size="mini">{{
-      running ? '停止' : '开始'
+      running ? 'Stop' : 'Start'
     }}</el-button>
     <el-button size="mini" @click="showRemoveoptions = true">
-      重置
+      Reset
     </el-button>
     <el-button size="mini" @click="showImport = true">
-      导入名单
+      Import names
     </el-button>
     <el-button size="mini" @click="showImportphoto = true">
-      导入照片
+      Import photos
     </el-button>
     <el-dialog
       :append-to-body="true"
@@ -19,8 +19,8 @@
       width="400px"
     >
       <el-form ref="form" :model="form" label-width="80px" size="mini">
-        <el-form-item label="抽取奖项">
-          <el-select v-model="form.category" placeholder="请选取本次抽取的奖项">
+        <el-form-item label="Draw prize">
+          <el-select v-model="form.category" placeholder="Please select the current prize">
             <el-option
               :label="item.label"
               :value="item.value"
@@ -43,16 +43,16 @@
           </span>
         </el-form-item>
 
-        <el-form-item label="抽取方式">
-          <el-select v-model="form.mode" placeholder="请选取本次抽取方式">
-            <el-option label="抽1人" :value="1"></el-option>
-            <el-option label="抽5人" :value="5"></el-option>
-            <el-option label="一次抽取完" :value="0"></el-option>
-            <el-option label="自定义" :value="99"></el-option>
+        <el-form-item label="Draw method">
+          <el-select v-model="form.mode" placeholder="Please select the current draw method">
+            <el-option label="Draw 1" :value="1"></el-option>
+            <el-option label="Draw 5" :value="5"></el-option>
+            <el-option label="Draw all" :value="0"></el-option>
+            <el-option label="Custom" :value="99"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="抽取人数" v-if="form.mode === 99">
+        <el-form-item label="Number of participants" v-if="form.mode === 99">
           <el-input
             v-model="form.qty"
             type="number"
@@ -63,16 +63,16 @@
           ></el-input>
         </el-form-item>
 
-        <el-form-item label="全员参与">
+        <el-form-item label="Everyone">
           <el-switch v-model="form.allin"></el-switch>
           <span :style="{ fontSize: '12px' }">
-            (开启后将在全体成员[无论有无中奖]中抽奖)
+            (Will draw from all of the participants including the previous winners)
           </span>
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">立即抽奖</el-button>
-          <el-button @click="showSetwat = false">取消</el-button>
+          <el-button type="primary" @click="onSubmit">Draw!</el-button>
+          <el-button @click="showSetwat = false">Cancel</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -86,18 +86,18 @@
       <el-input
         type="textarea"
         :rows="10"
-        placeholder="请输入对应的号码和名单(可直接从excel复制)，格式(号码 名字)，导入的名单将代替号码显示在抽奖中。如：
-1 张三
-2 李四
-3 王五
+        placeholder="Please enter the number and the name with format (index name)，names will replace the number in the prize draw, example：
+1 John Smith
+2 Peter Pan
+3 David Bowl
 				"
         v-model="listStr"
       ></el-input>
       <div class="footer">
         <el-button size="mini" type="primary" @click="transformList"
-          >确定</el-button
+          >Confirm</el-button
         >
-        <el-button size="mini" @click="showImport = false">取消</el-button>
+        <el-button size="mini" @click="showImport = false">Cancel</el-button>
       </div>
     </el-dialog>
     <Importphoto
@@ -114,16 +114,16 @@
       <el-form ref="form" :model="removeInfo" label-width="80px" size="mini">
         <el-form-item label="重置选项">
           <el-radio-group v-model="removeInfo.type">
-            <el-radio border :label="0">重置全部数据</el-radio>
-            <el-radio border :label="1">重置抽奖配置</el-radio>
-            <el-radio border :label="2">重置名单</el-radio>
-            <el-radio border :label="3">重置照片</el-radio>
-            <el-radio border :label="4">重置抽奖结果</el-radio>
+            <el-radio border :label="0">Reset all data</el-radio>
+            <el-radio border :label="1">Reset draw setting</el-radio>
+            <el-radio border :label="2">Reset name lists</el-radio>
+            <el-radio border :label="3">Reset photos</el-radio>
+            <el-radio border :label="4">Reset draw results</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="resetConfig">确定重置</el-button>
-          <el-button @click="showRemoveoptions = false">取消</el-button>
+          <el-button type="primary" @click="resetConfig">Confirm reset</el-button>
+          <el-button @click="showRemoveoptions = false">Cancel</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -209,9 +209,9 @@ export default {
   methods: {
     resetConfig() {
       const type = this.removeInfo.type;
-      this.$confirm('此操作将重置所选数据，是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm('This will reet the select data，continue?', 'Warning', {
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
         type: 'warning'
       })
         .then(() => {
@@ -246,7 +246,7 @@ export default {
           this.showRemoveoptions = false;
           this.$message({
             type: 'success',
-            message: '重置成功!'
+            message: 'Reset success!'
           });
 
           this.$nextTick(() => {
@@ -256,20 +256,20 @@ export default {
         .catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消'
+            message: 'Canceled'
           });
         });
     },
     onSubmit() {
       if (!this.form.category) {
-        return this.$message.error('请选择本次抽取的奖项');
+        return this.$message.error('Please select the current prize');
       }
       if (this.remain <= 0) {
-        return this.$message.error('该奖项剩余人数不足');
+        return this.$message.error("We've ran out of this prize!");
       }
       if (this.form.mode === 99) {
         if (this.form.qty <= 0) {
-          return this.$message.error('必须输入本次抽取人数');
+          return this.$message.error('Number of participants must be entered');
         }
         if (this.form.qty > this.remain) {
           return this.$message.error('本次抽奖人数已超过本奖项的剩余人数');
@@ -295,7 +295,7 @@ export default {
     transformList() {
       const { listStr } = this;
       if (!listStr) {
-        this.$message.error('没有数据');
+        this.$message.error('Data not found');
       }
       const list = [];
       const rows = listStr.split('\n');
@@ -316,7 +316,7 @@ export default {
       this.$store.commit('setList', list);
 
       this.$message({
-        message: '保存成功',
+        message: 'Save success!',
         type: 'success'
       });
       this.showImport = false;
